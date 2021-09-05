@@ -1,0 +1,11 @@
+{
+    "name": "Document DesignMode Toggle",
+    "version": "0.0.1",
+    "manifest_version": 3,
+
+    "permissions": ["scripting"],
+
+    "action": {
+        "default_title": "Edit"
+    }
+  }
