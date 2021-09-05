@@ -1,21 +1,24 @@
-chrome.action.onClicked.addListener(async (tab) => {
-    
-    // grab current tab action title
-    const title = await chrome.action.getTitle(tab.id);
-    console.log(title);
+chrome.action.onClicked.addListener((tab) => {
 
-    // toggle design mode
-    chrome.tabs.executeScript(tab.ib, {
-        func: () => {
-            document.designMode = title === 'Edit' ? 'on' : 'off';
-            console.log(document.designMode);
-        }
-    });
+    const tabId = tab.id;
 
-    // update tab action title
-    await chrome.action.setTitle(tab.id, 
-        title === 'Edit' ? 'Editing' : 'Edit'    
-    );
+    chrome.action.getTitle({ tabId })
+        .then((tabTitle) => {
+            const title = tabTitle === 'Edit' ? 'Editing' : 'Edit';
 
-    return;
+            chrome.scripting.executeScript({
+                func: () => {
+                    document.designMode = document.designMode === 'off' ? 'on' : 'off';
+                    document.querySelector("html").setAttribute("spellcheck", false);
+                },
+                target: { tabId }
+            });
+
+            // update tab action title
+            chrome.action.setTitle({ 
+                tabId,
+                title
+            });
+        });
+
 });

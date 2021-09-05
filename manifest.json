@@ -3,9 +3,15 @@
     "version": "0.0.1",
     "manifest_version": 3,
 
-    "permissions": ["scripting"],
+    "permissions": ["action", "tabs", "scripting"],
 
     "action": {
         "default_title": "Edit"
-    }
+    },
+
+    "background": {
+        "service_worker": "background.js"
+    },
+
+    "host_permissions": ["https://*/"]
   }
